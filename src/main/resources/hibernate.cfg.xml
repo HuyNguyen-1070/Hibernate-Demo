@@ -1,0 +1,32 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Kết nối MySQL -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/productdb?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+
+        <!-- Thiết lập ngôn ngữ & ký tự -->
+        <property name="hibernate.connection.characterEncoding">UTF-8</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+
+        <!-- Cấu hình Hibernate -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Khai báo các Entity -->
+        <mapping class="com.example.entity.Language"/>
+        <mapping class="com.example.entity.ProductCategory"/>
+        <mapping class="com.example.entity.ProductCategoryTranslation"/>
+        <mapping class="com.example.entity.Product"/>
+        <mapping class="com.example.entity.ProductTranslation"/>
+
+    </session-factory>
+</hibernate-configuration>
