@@ -2,6 +2,10 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"  %>
 <%@ taglib prefix="t"   tagdir="/WEB-INF/tags"  %>
+
+<fmt:setLocale value="${empty lang ? 'vi' : lang}"/>
+<fmt:setBundle basename="app_i18n.messages"/>
+
 <!doctype html>
 <html lang="${empty lang ? 'vi' : lang}">
 <head>
@@ -10,13 +14,15 @@
 </head>
 <body>
 
-<fmt:setLocale value="${empty lang ? 'vi' : lang}"/>
-<fmt:setBundle basename="app_i18n.messages"/>
-
 <%@ include file="/WEB-INF/views/_layout.jspf" %>
 
 <div class="container my-4">
-  <h4 class="mb-3"><fmt:message key="products.title"/></h4>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0"><fmt:message key="products.title"/></h4>
+    <a href="<t:urlWithLang value='/products/add'/>" class="btn btn-success btn-sm">
+      ➕ <fmt:message key="btn.add.product"/>
+    </a>
+  </div>
 
   <c:choose>
     <c:when test="${empty products}">
@@ -38,21 +44,28 @@
         <tbody>
         <c:forEach var="p" items="${products}">
           <tr>
-            <td>${p.product.productId}</td> <td>${p.productName}</td> <td>${p.product.price}</td> <td>${p.product.weight}</td> <td>${p.product.productCategory.productCategoryId}</td> <td><c:out value="${p.productDescription}"/></td> <td>
-              <a class="btn btn-sm btn-outline-primary"
-                 href="<t:urlWithLang value='/products/detail?id=${p.product.productId}'/>"> <fmt:message key="btn.details"/>
+            <td>${p.product.productId}</td>
+            <td>${p.productName}</td>
+            <td>${p.product.price}</td>
+            <td>${p.product.weight}</td>
+            <td>${p.product.productCategory.currentLanguageName}</td>
+            <td><c:out value="${p.productDescription}"/></td>
+            <td>
+              <a class="btn btn-sm btn-outline-primary" href="<t:urlWithLang value='/products/detail?id=${p.product.productId}'/>">
+                <fmt:message key="btn.details"/>
               </a>
-              <a class="btn btn-sm btn-outline-secondary"
-                   href="<t:urlWithLang value='/products/edit?id=${p.product.productId}'/>"> <fmt:message key="btn.edit"/>
-                </a>
-
-                <form method="post"
-                      action="<t:urlWithLang value='/products/delete'/>"
-                      style="display:inline"
-                      onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm #${p.product.productId}?');"> <input type="hidden" name="id" value="${p.product.productId}"/> <button class="btn btn-sm btn-outline-danger">
-                    <fmt:message key="btn.delete"/>
-                  </button>
-                </form>
+              <a class="btn btn-sm btn-outline-secondary" href="<t:urlWithLang value='/products/edit?id=${p.product.productId}'/>">
+                <fmt:message key="btn.edit"/>
+              </a>
+              <form method="post"
+                    action="<t:urlWithLang value='/products/delete'/>"
+                    style="display:inline"
+                    onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm #${p.product.productId}?');">
+                <input type="hidden" name="id" value="${p.product.productId}"/>
+                <button class="btn btn-sm btn-outline-danger">
+                  <fmt:message key="btn.delete"/>
+                </button>
+              </form>
             </td>
           </tr>
         </c:forEach>

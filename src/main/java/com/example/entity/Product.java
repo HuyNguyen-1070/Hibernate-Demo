@@ -8,8 +8,10 @@ import java.util.Set;
 @Table(name = "Product")
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ProductID")
     private int productId;
+
 
     @Column(name = "Price")
     private BigDecimal price;

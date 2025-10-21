@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2025 at 03:11 PM
+-- Generation Time: Oct 21, 2025 at 05:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -50,7 +50,7 @@ INSERT INTO `language` (`LanguageID`, `Language`) VALUES
 CREATE TABLE `product` (
   `ProductID` int(11) NOT NULL,
   `Price` decimal(19,4) NOT NULL,
-  `Weight` decimal(4,2) NOT NULL,
+  `Weight` decimal(6,2) NOT NULL,
   `ProductCategoryID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -171,6 +171,16 @@ ALTER TABLE `productcategorytranslation`
 ALTER TABLE `producttranslation`
   ADD PRIMARY KEY (`ProductID`,`LanguageID`),
   ADD KEY `fk_ProductTranslation_Language` (`LanguageID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `ProductID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- Constraints for dumped tables

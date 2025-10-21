@@ -108,6 +108,36 @@ public class ProductService {
         return product;
     }
 
+    /**
+     * Thêm mới một sản phẩm (core Product)
+     */
+    public int createProduct(BigDecimal price, BigDecimal weight, int categoryId) {
+        Transaction transaction = null;
+        int newProductId = -1;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            ProductCategory category = session.get(ProductCategory.class, categoryId);
+            Product product = new Product();
+
+            product.setPrice(price);
+            product.setWeight(weight.doubleValue());
+            product.setProductCategory(category);
+
+            session.persist(product);
+            session.flush(); // Đảm bảo ID được tạo
+
+            newProductId = product.getProductId();
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        }
+
+        return newProductId;
+    }
 
     /**
      * Cập nhật thông tin core của Product (Giá, Khối lượng, Danh mục)
