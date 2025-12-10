@@ -20,8 +20,6 @@ public class CategoryService {
     public List<ProductCategoryTranslation> findAllCategories(String languageId) {
         List<ProductCategoryTranslation> translations = Collections.emptyList();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // HQL: Lấy các bản dịch danh mục khớp với mã ngôn ngữ và sắp xếp theo ID
-            // Không cần Transaction cho truy vấn SELECT đơn giản
             String hql = "FROM ProductCategoryTranslation pct WHERE pct.id.languageId = :langId ORDER BY pct.id.productCategoryId";
             Query<ProductCategoryTranslation> query = session.createQuery(hql, ProductCategoryTranslation.class);
             query.setParameter("langId", languageId);
@@ -46,7 +44,6 @@ public class CategoryService {
             ProductCategory category = new ProductCategory();
             category.setCanBeShipped(canBeShipped);
 
-            // Lưu và lấy ID được tạo
             session.persist(category);
             generatedId = category.getProductCategoryId();
 
@@ -86,7 +83,7 @@ public class CategoryService {
 
             translation.setCategoryName(name);
 
-            session.merge(translation); // Sử dụng merge cho thao tác upsert
+            session.merge(translation);
 
             transaction.commit();
         } catch (Exception e) {
@@ -105,12 +102,10 @@ public class CategoryService {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            // Xóa tất cả bản dịch trước bằng HQL (tránh lỗi khóa ngoại)
             session.createQuery("DELETE FROM ProductCategoryTranslation WHERE id.productCategoryId = :catId")
                     .setParameter("catId", categoryId)
                     .executeUpdate();
 
-            // Tải và xóa Entity ProductCategory chính
             ProductCategory category = session.get(ProductCategory.class, categoryId);
 
             if (category != null) {

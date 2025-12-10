@@ -18,7 +18,7 @@ public class ProductCategory {
     @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Product> products;
 
-    // Mối quan hệ One-to-Many với bản dịch (không đổi)
+    // Mối quan hệ One-to-Many với bản dịch
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ProductCategoryTranslation> translations;
 

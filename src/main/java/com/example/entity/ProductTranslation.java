@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "ProductTranslation")
 public class ProductTranslation {
     @EmbeddedId
-    private ProductTranslationId id; // Khóa tổng hợp
+    private ProductTranslationId id;
 
     @Column(name = "ProductName")
     private String productName;
@@ -16,13 +16,13 @@ public class ProductTranslation {
 
     // Mối quan hệ Many-to-One với Product
     @ManyToOne
-    @MapsId("productId") // Ánh xạ trường productId trong ProductTranslationId
+    @MapsId("productId")
     @JoinColumn(name = "ProductID")
     private Product product;
 
     // Mối quan hệ Many-to-One với Language
     @ManyToOne
-    @MapsId("languageId") // Ánh xạ trường languageId trong ProductTranslationId
+    @MapsId("languageId")
     @JoinColumn(name = "LanguageID")
     private Language language;
 

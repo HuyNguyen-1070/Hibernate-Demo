@@ -22,7 +22,6 @@ public class ProductCategoryId implements Serializable {
     public String getLanguageId() { return languageId; }
     public void setLanguageId(String languageId) { this.languageId = languageId; }
 
-    // Cần phải ghi đè equals() và hashCode() cho khóa tổng hợp
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

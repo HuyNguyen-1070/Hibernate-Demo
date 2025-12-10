@@ -22,7 +22,6 @@ public class ProductTranslationId implements Serializable {
     public String getLanguageId() { return languageId; }
     public void setLanguageId(String languageId) { this.languageId = languageId; }
 
-    // Cần phải ghi đè equals() và hashCode()
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

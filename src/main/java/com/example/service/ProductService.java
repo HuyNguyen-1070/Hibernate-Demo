@@ -81,14 +81,12 @@ public class ProductService {
             return "N/A";
         }
 
-        // Tìm bản dịch theo ngôn ngữ
         for (ProductCategoryTranslation translation : category.getTranslations()) {
             if (translation.getId().getLanguageId().equals(languageId)) {
                 return translation.getCategoryName();
             }
         }
 
-        // Fallback: trả về bản dịch đầu tiên nếu không tìm thấy
         if (!category.getTranslations().isEmpty()) {
             return category.getTranslations().iterator().next().getCategoryName();
         }
@@ -126,7 +124,7 @@ public class ProductService {
             product.setProductCategory(category);
 
             session.persist(product);
-            session.flush(); // Đảm bảo ID được tạo
+            session.flush();
 
             newProductId = product.getProductId();
 
@@ -151,11 +149,9 @@ public class ProductService {
 
             if (product != null) {
                 product.setPrice(price);
-                // ĐÃ CHỈNH SỬA: Chuyển BigDecimal sang double cho trường Weight
                 product.setWeight(weight.doubleValue());
 
                 ProductCategory category = session.get(ProductCategory.class, categoryId);
-                // FIX: Sử dụng setProductCategory thay vì setCategory
                 product.setProductCategory(category);
 
                 session.merge(product);
@@ -214,12 +210,10 @@ public class ProductService {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            // 1. Xóa tất cả bản dịch (ProductTranslation)
             session.createQuery("DELETE FROM ProductTranslation WHERE id.productId = :pid")
                     .setParameter("pid", productId)
                     .executeUpdate();
 
-            // 2. Tải và xóa Entity Product chính
             Product product = session.get(Product.class, productId);
 
             if (product != null) {

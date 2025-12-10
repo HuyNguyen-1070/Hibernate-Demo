@@ -19,7 +19,6 @@ public class Product {
     @Column(name = "Weight")
     private double weight;
 
-    // ĐÃ SỬA: Tên biến từ 'category' thành 'productCategory'
     @ManyToOne
     @JoinColumn(name = "ProductCategoryID", nullable = false)
     private ProductCategory productCategory;
@@ -43,7 +42,6 @@ public class Product {
     public double getWeight() { return weight; }
     public void setWeight(double weight) { this.weight = weight; }
 
-    // ĐÃ SỬA: Getters/Setters cho productCategory
     public ProductCategory getProductCategory() { return productCategory; }
     public void setProductCategory(ProductCategory productCategory) { this.productCategory = productCategory; }
 
